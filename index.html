@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SQLite Test with wa-sqlite</title>
-  <script src="https://unpkg.com/@wasmer/wasi@0.11.0/dist/wasmer-wasi.min.js"></script>
-  <script src="https://raw.githubusercontent.com/rhashimoto/wa-sqlite/master/sqlite3.wasm"></script>
+  <script src="https://github.com/cbreuerbscsd/PEQ/raw/refs/heads/main/sqljs/sql-wasm-debug.js"></script>
+  <script src="https://github.com/cbreuerbscsd/PEQ/raw/refs/heads/main/sqljs/sql-wasm.wasm"></script>
 </head>
 <body>
   <h1>SQLite Test with wa-sqlite</h1>
@@ -20,9 +20,9 @@
 
     // This function loads the SQLite database from GitHub (you can use raw URL of your database hosted on GitHub)
     async function loadDatabase() {
-      const response = await fetch('https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO_NAME/main/mydatabase.db');
+      const response = await fetch('https://github.com/cbreuerbscsd/PEQ/raw/refs/heads/main/peqtgc.db');
       const dbBuffer = await response.arrayBuffer();
-      const sqlite3 = await initSqlJs({ locateFile: file => `https://raw.githubusercontent.com/rhashimoto/wa-sqlite/master/${file}` });
+      const sqlite3 = await initSqlJs({ locateFile: file => `https://github.com/cbreuerbscsd/PEQ/raw/refs/heads/main/${file}` });
 
       // Open the SQLite database
       db = new sqlite3.Database(new Uint8Array(dbBuffer));
@@ -32,7 +32,7 @@
     // This function queries the loaded SQLite database and logs results to the screen
     function queryDatabase() {
       if (db) {
-        const sql = "SELECT * FROM your_table LIMIT 10"; // Modify this query based on your table and columns
+        const sql = "SELECT * FROM items LIMIT 10"; // Modify this query based on your table and columns
         db.all(sql, [], (err, rows) => {
           if (err) {
             document.getElementById("output").innerText = "Error: " + err.message;
