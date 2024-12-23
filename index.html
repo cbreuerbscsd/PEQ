@@ -17,9 +17,9 @@
   <script>
     let db;
 
-    // This function loads the SQLite database from GitHub (you can use raw URL of your database hosted on GitHub)
+    // This function loads the SQLite database from a file (you can use raw URL of your database hosted on GitHub)
     async function loadDatabase() {
-      const response = await fetch('peqtgc.db');
+      const response = await fetch('peqtgc.db'); // Adjust to the path of your SQLite file
       const dbBuffer = await response.arrayBuffer();
       const sqlite3 = await initSqlJs({ locateFile: file => `${file}` });
 
@@ -32,18 +32,17 @@
     function queryDatabase() {
       if (db) {
         const sql = "SELECT * FROM items LIMIT 10"; // Modify this query based on your table and columns
-        db.all(sql, [], (err, rows) => {
-          if (err) {
-            document.getElementById("output").innerText = "Error: " + err.message;
-          } else {
-            let result = "<h3>Query Results:</h3><ul>";
-            rows.forEach(row => {
-              result += `<li>${JSON.stringify(row)}</li>`;
-            });
-            result += "</ul>";
-            document.getElementById("output").innerHTML = result;
-          }
-        });
+        try {
+          const results = db.exec(sql);
+          let resultHTML = "<h3>Query Results:</h3><ul>";
+          results[0].values.forEach(row => {
+            resultHTML += `<li>${JSON.stringify(row)}</li>`;
+          });
+          resultHTML += "</ul>";
+          document.getElementById("output").innerHTML = resultHTML;
+        } catch (err) {
+          document.getElementById("output").innerText = "Error: " + err.message;
+        }
       } else {
         document.getElementById("output").innerText = "Database is not loaded yet!";
       }
