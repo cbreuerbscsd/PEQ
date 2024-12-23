@@ -19,7 +19,7 @@
 
     // This function loads the SQLite database from a file (you can use raw URL of your database hosted on GitHub)
     async function loadDatabase() {
-      const response = await fetch('peqtgc.db?raw=true'); // Adjust to the path of your SQLite file
+      const response = await fetch('/cbreuerbscsd/PEQ/blob/main/peqtgc.db?raw=true'); // Adjust to the path of your SQLite file
       const dbBuffer = await response.arrayBuffer();
       const sqlite3 = await initSqlJs({ locateFile: file => `${file}` });
 
